@@ -1,0 +1,24 @@
+// змінні
+
+// параметри сітки
+// максимальна ширина контейнера
+$container-max-width: 1140px !default;
+
+// кількість колонок
+$grid-columns: 12 !default;
+
+// відстань між елементами
+$grid-gap: 30px !default;
+$grid-gap-side: $grid-gap / 2;
+
+// контрольні точки сітки
+$grid-breakpoints: (
+	xs: 0,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+	xxl: 1400px
+) !default;
+
+// кольори

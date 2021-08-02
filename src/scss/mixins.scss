@@ -1,0 +1,74 @@
+// міксини
+
+// ============== міксини для сітки ============== //
+// контейнер
+@mixin container {
+	margin: 0 auto;
+	padding-right: $grid-gap-side;
+	padding-left: $grid-gap-side;
+	max-width: $container-max-width;
+}
+
+// рядок сітки
+@mixin row {
+	display: flex;
+	flex-wrap: wrap;
+	margin-right: -$grid-gap-side;
+	margin-left: -$grid-gap-side;
+
+	> * {
+		margin-right: $grid-gap-side;
+		margin-left: $grid-gap-side;
+		width: 100%;
+		max-width: 100%;
+	}
+}
+
+// фіксована колонка
+@mixin col($size) {
+	flex: 0 0 auto;
+	width: calc(#{percentage($size / $grid-columns)} - #{$grid-gap});
+}
+
+// медіа
+@mixin media($width) {
+	@media (max-width: $width) {
+		@content;
+	}
+}
+
+// контрольна точка
+@mixin bp($width) {
+	$width: map-get($grid-breakpoints, $name);
+
+	@include media($width) {
+		@content;
+	}
+}
+
+// ========================================== //
+// міксин для шрифтів
+@mixin font($font_name, $file_name, $weight, $style) {
+	@font-face {
+		src:
+			url("../fonts/#{$file_name}.woff") format("woff"),
+			url("../fonts/#{$file_name}.woff2") format("woff2");
+		font-family: $font_name;
+		font-weight: #{$weight};
+		font-style: #{$style};
+		font-display: swap;
+	}
+}
+
+// ========================================== //
+@mixin hover-supported {
+	// https://developer.mozilla.org/en-US/docs/Web/CSS/@media/pointer
+	// coarse: The primary input mechanism includes a pointing device of limited accuracy.
+
+	@media not all and (pointer: coarse) {
+		&:hover {
+			@content;
+		}
+	}
+}
+
