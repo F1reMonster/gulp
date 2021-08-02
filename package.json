@@ -1,12 +1,14 @@
 {
   "name": "gulp-file",
   "version": "2.0.0",
-  "description": "new gulp file from 2021-08-02",
+  "description": "gulp build system, last update:2021-08-02",
+  "homepage": "https://github.com/F1reMonster",
+  "repository": "https://github.com/F1reMonster/gulp",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "FireMonster",
+  "author": "Hennadii Lapko <firemonster@ukr.net>",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.14.8",
