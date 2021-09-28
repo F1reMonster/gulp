@@ -1,7 +1,7 @@
 {
   "name": "gulp-file",
   "version": "3.0.0",
-  "description": "gulp build system, last update:2021-08-02",
+  "description": "gulp build system, last update:2021-28-09, mirgate to sass 5, npm module update",
   "homepage": "https://github.com/F1reMonster",
   "repository": "https://github.com/F1reMonster/gulp",
   "main": "index.js",
