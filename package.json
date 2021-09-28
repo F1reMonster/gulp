@@ -8,7 +8,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Hennadii Lapko <firemonster@ukr.npm updatenet>",
+  "author": "Hennadii Lapko <firemonster@ukr.net>",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.14.8",
