@@ -32,7 +32,7 @@ let path = {
 // gulpScss = require('gulp-sass')(require('sass')); sass 5.0.0
 
 let { src, dest } = (gulp = require("gulp")),
-	gulpScss = require("gulp-sass"),
+	gulpScss = require('gulp-sass')(require('sass')),
 	gulpPlumber = require("gulp-plumber"),
 	gulpAutoprefixer = require("gulp-autoprefixer"),
 	cleanCss = require("gulp-clean-css"),

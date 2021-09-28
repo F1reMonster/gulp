@@ -1,3 +1,4 @@
+@use "sass:math";
 // міксини
 
 // ============== міксини для сітки ============== //
@@ -27,7 +28,7 @@
 // фіксована колонка
 @mixin col($size) {
 	flex: 0 0 auto;
-	width: calc(#{percentage($size / $grid-columns)} - #{$grid-gap});
+	width: calc(#{percentage(math.div($size, $grid-columns))} - #{$grid-gap});
 }
 
 // медіа
@@ -71,4 +72,3 @@
 		}
 	}
 }
-

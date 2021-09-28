@@ -1,11 +1,12 @@
 // файл стилів
 
 // головні файли
-@import 'vendors';
-@import 'vars';
-@import 'mixins';
-@import 'fonts';
+
+@import "vendors";
+@import "vars";
+@import "mixins";
+@import "fonts";
+@import "global";
 
 // сітка
 @import "grid/init";
-

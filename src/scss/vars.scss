@@ -1,3 +1,4 @@
+@use "sass:math";
 // змінні
 
 // параметри сітки
@@ -9,7 +10,7 @@ $grid-columns: 12 !default;
 
 // відстань між елементами
 $grid-gap: 30px !default;
-$grid-gap-side: $grid-gap / 2;
+$grid-gap-side: math.div($grid-gap, 2); // migrate sass 5
 
 // контрольні точки сітки
 $grid-breakpoints: (
@@ -22,3 +23,5 @@ $grid-breakpoints: (
 ) !default;
 
 // кольори
+$white: #fff;
+$black: #000;
