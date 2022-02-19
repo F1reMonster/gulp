@@ -39,10 +39,7 @@
 		}
 
 		&--huge {
-			@include adaptiveValue("font-size",
-				($fontSizeDefault * 4.2),
-				($fontSizeDefault + 14),
-				0);
+			@include adaptiveValue("font-size", ($fontSizeDefault * 3.8), ($fontSizeDefault + 14), 0);
 
 			font-weight: 700;
 			color: $fern;
@@ -50,49 +47,70 @@
 
 		&--shadow {
 			text-shadow: $shadow;
-
 		}
 
 		&--xxl {
-			@include adaptiveValue("font-size",
-				($fontSizeDefault * 4),
-				($fontSizeDefault + 12),
-				0);
+			@include adaptiveValue("font-size", ($fontSizeDefault * 3.5), ($fontSizeDefault + 12), 0);
 		}
 
 		&--xl {
-			@include adaptiveValue("font-size",
-				($fontSizeDefault * 3.5),
-				($fontSizeDefault + 10),
-				0);
+			@include adaptiveValue("font-size", ($fontSizeDefault * 3), ($fontSizeDefault + 10), 0);
 		}
 
 		&--lg {
-			@include adaptiveValue("font-size",
-				($fontSizeDefault * 3),
-				($fontSizeDefault + 8),
-				0);
+			@include adaptiveValue("font-size", ($fontSizeDefault * 2.5), ($fontSizeDefault + 8), 0);
 		}
 
 		&--md {
-			@include adaptiveValue("font-size",
-				($fontSizeDefault * 2.5),
-				($fontSizeDefault + 6),
-				0);
+			@include adaptiveValue("font-size", ($fontSizeDefault * 2), ($fontSizeDefault + 6), 0);
 		}
 
 		&--sm {
-			@include adaptiveValue("font-size",
-				($fontSizeDefault * 2),
-				($fontSizeDefault + 4),
-				0);
+			@include adaptiveValue("font-size", ($fontSizeDefault * 1.5), ($fontSizeDefault + 4), 0);
 		}
 
 		&--lt {
-			@include adaptiveValue("font-size",
-				($fontSizeDefault * 1.5),
-				($fontSizeDefault + 2),
-				0);
+			@include adaptiveValue("font-size", ($fontSizeDefault * 1.2), ($fontSizeDefault + 2), 0);
+		}
+	}
+
+	&__text {
+		font-weight: 400;
+
+		&--mid {
+			font-weight: 500;
+		}
+
+		&--semi {
+			font-weight: 600;
+		}
+
+		&--bold {
+			font-weight: 700;
+		}
+
+		&--xxl {
+			@include adaptiveValue("font-size", ($fontSizeDefault * 3.5), ($fontSizeDefault + 12), 0);
+		}
+
+		&--xl {
+			@include adaptiveValue("font-size", ($fontSizeDefault * 3), ($fontSizeDefault + 10), 0);
+		}
+
+		&--lg {
+			@include adaptiveValue("font-size", ($fontSizeDefault * 2.5), ($fontSizeDefault + 8), 0);
+		}
+
+		&--md {
+			@include adaptiveValue("font-size", ($fontSizeDefault * 2), ($fontSizeDefault + 6), 0);
+		}
+
+		&--sm {
+			@include adaptiveValue("font-size", ($fontSizeDefault * 1.5), ($fontSizeDefault + 4), 0);
+		}
+
+		&--lt {
+			@include adaptiveValue("font-size", ($fontSizeDefault * 1.2), ($fontSizeDefault + 2), 0);
 		}
 	}
 }
