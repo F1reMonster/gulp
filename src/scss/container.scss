@@ -1,0 +1,21 @@
+.container {
+	margin: 0 auto;
+	padding-right: px($containerGutter);
+	padding-left: px($containerGutter);
+	max-width: px($maxWidthContainer);
+
+	// 1199 / 992
+	@media (max-width: 1139px) {
+		max-width: px($bp-lg);
+	}
+
+	// 1023 / 768
+	@media (max-width: 1023px) {
+		max-width: px($bp-md);
+	}
+
+	// 767 / 568
+	@media (max-width: 767px) {
+		max-width: px($bp-sm);
+	}
+}

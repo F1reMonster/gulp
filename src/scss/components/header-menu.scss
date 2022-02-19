@@ -1,0 +1,8 @@
+.nav {
+	&__list {
+		display: flex;
+		column-gap: px($containerGutter);
+
+		
+	}
+}

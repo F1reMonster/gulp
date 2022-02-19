@@ -1,9 +1,9 @@
 @use "sass:math";
-// змінні
 
+// змінні
 // параметри сітки
 // максимальна ширина контейнера
-$container-max-width: 1140px !default;
+// $container-max-width: 1140px !default;
 
 // кількість колонок
 $grid-columns: 12 !default;
@@ -19,9 +19,28 @@ $grid-breakpoints: (
 	md: 768px,
 	lg: 992px,
 	xl: 1200px,
-	xxl: 1400px
+	xxl: 1400px,
 ) !default;
+$maxWidth: 1920;
+$maxWidthContainer: 1140;
+$fontSizeDefault: 16;
+$containerGutter: 15;
+
+// breakpoints
+$bp-xl: 1200;
+$bp-lg: 992;
+$bp-md: 768;
+$bp-sm: 576;
 
 // кольори
 $white: #fff;
 $black: #000;
+$fern: #65bc7b;
+$alabaster: #f8f8f8;
+$lighting-yellow: #fec514;
+$lochmara: #0080d5;
+$firefly: #09121f;
+
+// shadow
+$shadow: 0 2px 2px rgba(0, 0, 0, 0.15), 0 1px 5px rgba(0, 0, 0, 0.15);
+$shadow-flat: 0 0 12px rgba(152, 162, 179, 0.15), 0 0 4px rgba(152, 162, 179, 0.15), 0 0 2px rgba(152, 162, 179, 0.15);

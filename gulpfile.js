@@ -32,8 +32,8 @@ let path = {
 // gulpScss = require('gulp-sass')(require('sass')); sass 5.0.0
 
 let { src, dest } = (gulp = require("gulp")),
-	gulpScss = require('gulp-sass')(require('sass')),
-	gulpPlumber = require("gulp-plumber"),
+	gulpScss = require("gulp-sass")(require("sass")),
+	// gulpPlumber = require("gulp-plumber"),
 	gulpAutoprefixer = require("gulp-autoprefixer"),
 	cleanCss = require("gulp-clean-css"),
 	gulpBabel = require("gulp-babel"),
@@ -47,7 +47,9 @@ let { src, dest } = (gulp = require("gulp")),
 	gulpConcat = require("gulp-concat"),
 	fileInclude = require("gulp-file-include"),
 	ttf2woff = require("gulp-ttf2woff"),
-	ttf2woff2 = require("gulp-ttf2woff2");
+	ttf2woff2 = require("gulp-ttf2woff2"),
+	newer = require("gulp-newer"),
+	fonter = require("gulp-fonter");
 
 function html() {
 	return src(path.src.html)
@@ -57,31 +59,33 @@ function html() {
 }
 
 function css() {
-	return src(path.src.css)
-		.pipe(gulpPlumber())
-		.pipe(gulpScss())
-		.pipe(groupMedia())
-		.pipe(
-			cssBeauty({
-				indent: "	",
-			})
-		)
-		.pipe(
-			gulpAutoprefixer({
-				overrideBrowserslist: ["last 5 versions"],
-				cascade: false,
-			})
-		)
-		.pipe(dest(path.build.css))
-		.pipe(cleanCss({ level: 2 }))
-		.pipe(
-			gulpRename({
-				extname: ".min.css",
-			})
-		)
-		.pipe(gulpPlumber.stop())
-		.pipe(dest(path.build.css))
-		.pipe(browserSync.stream());
+	return (
+		src(path.src.css)
+			// .pipe(gulpPlumber())
+			.pipe(gulpScss().on("error", gulpScss.logError))
+			.pipe(groupMedia())
+			.pipe(
+				cssBeauty({
+					indent: "	",
+				})
+			)
+			.pipe(
+				gulpAutoprefixer({
+					overrideBrowserslist: ["last 5 versions"],
+					cascade: false,
+				})
+			)
+			.pipe(dest(path.build.css))
+			.pipe(cleanCss({ level: 2 }))
+			.pipe(
+				gulpRename({
+					extname: ".min.css",
+				})
+			)
+			// .pipe(gulpPlumber.stop())
+			.pipe(dest(path.build.css))
+			.pipe(browserSync.stream())
+	);
 }
 
 function js() {
@@ -105,28 +109,29 @@ function js() {
 
 function libs() {
 	return src([
-			"node_modules/jquery/dist/jquery.js",
-			"node_modules/swiper/swiper-bundle.js",
-			//"node_modules/jquery-validation/dist/jquery.validate.js",
-			//"node_modules/jquery-validation/dist/additional-methods.js",
-			"node_modules/inputmask/dist/jquery.inputmask.js",
-			// "node_modules/just-validate/dist/js/just-validate.js",
-			"node_modules/leaflet/dist/leaflet.js",
-			//"node_modules/magnific-popup/dist/jquery.magnific-popup.js",
-			//"node_modules/fotorama/fotorama.js",
-			//'node_modules/slick-carousel/slick/slick.js',
-			//'node_modules/chart.js/dist/Chart.bundle.js',
-			//'node_modules/nouislider/distribute/nouislider.js',
-			//"node_modules/wnumb/wNumb.js",
-			//'node_modules/@fancyapps/fancybox/dist/jquery.fancybox.js',
-			//'node_modules/select2/dist/js/select2.min.js',
-			//'node_modules/wowjs/dist/wow.min.js',
-			//'node_modules/ion-rangeslider/js/ion.rangeSlider.min.js',
-			//'node_modules/bootstrap/js/dist/modal.js'
-			// 'node_modules/popper.js/dist/umd/popper.js',
-			//'node_modules/bootstrap/dist/js/bootstrap.min.js',
-			//'node_modules/typewriter-effect/dist/core.js',
-		])
+		"node_modules/jquery/dist/jquery.js",
+		//"node_modules/swiper/swiper-bundle.js",
+		//"node_modules/jquery-validation/dist/jquery.validate.js",
+		//"node_modules/jquery-validation/dist/additional-methods.js",
+		//"node_modules/inputmask/dist/jquery.inputmask.js",
+		// "node_modules/just-validate/dist/js/just-validate.js",
+		//"node_modules/leaflet/dist/leaflet.js",
+		//"node_modules/magnific-popup/dist/jquery.magnific-popup.js",
+		//"node_modules/fotorama/fotorama.js",
+		//'node_modules/slick-carousel/slick/slick.js',
+		//'node_modules/chart.js/dist/Chart.bundle.js',
+		//'node_modules/nouislider/distribute/nouislider.js',
+		//"node_modules/wnumb/wNumb.js",
+		//'node_modules/@fancyapps/fancybox/dist/jquery.fancybox.js',
+		//'node_modules/select2/dist/js/select2.min.js',
+		//'node_modules/wowjs/dist/wow.min.js',
+		//'node_modules/ion-rangeslider/js/ion.rangeSlider.min.js',
+		//'node_modules/bootstrap/js/dist/modal.js',
+		// 'node_modules/@popperjs/core/dist/umd/popper.min.js',
+		// 'node_modules/bootstrap/dist/js/bootstrap.min.js',
+		//'node_modules/typewriter-effect/dist/core.js',
+		//'node_modules/dropzone/dist/dropzone-min.js'
+	])
 		.pipe(gulpConcat("vendors.js"))
 		.pipe(uglify())
 		.pipe(dest(path.build.js))
@@ -135,6 +140,7 @@ function libs() {
 
 function images() {
 	return src(path.src.img)
+		.pipe(newer(path.build.img))
 		.pipe(dest(path.build.img))
 		.pipe(browserSync.stream());
 }
@@ -193,6 +199,68 @@ function fontsStyle(params) {
 	}
 }
 
+function newFontsStyle(params) {
+	let fontsFile = source_folder + "/scss/fonts.scss";
+
+	fs.readdir(path.build.fonts, function (err, fontsFiles) {
+		if (fontsFiles) {
+			// перевіряємо чи є файл стилів для підключення шрифтів
+			if (!fs.existsSync(fontsFile)) {
+				// якщо немає, то створюємо його
+				fs.writeFile(fontsFile, "", cb);
+				let newFileOnly;
+				for (var i = 0; i < fontsFiles.length; i++) {
+					// записуємо підключення шрифтів у файл стилів
+					let fontFileName = fontsFiles[i].split(".")[0];
+					if (newFileOnly !== fontFileName) {
+						let fontName = fontFileName.split("-")[0]
+							? fontFileName.split("-")[0]
+							: fontFileName;
+						let fontWeight = fontFileName.split("-")[1]
+							? fontFileName.split("-")[1]
+							: fontFileName;
+						if (fontWeight.toLowerCase() === "thin") {
+							fontWeight = 100;
+						} else if (fontWeight.toLowerCase() === "extralight") {
+							fontWeight = 200;
+						} else if (fontWeight.toLowerCase() === "light") {
+							fontWeight = 300;
+						} else if (fontWeight.toLowerCase() === "medium") {
+							fontWeight = 500;
+						} else if (fontWeight.toLowerCase() === "semibold") {
+							fontWeight = 600;
+						} else if (fontWeight.toLowerCase() === "bold") {
+							fontWeight = 700;
+						} else if (
+							fontWeight.toLowerCase() === "extrabold" ||
+							fontWeight.toLowerCase() === "heavy"
+						) {
+							fontWeight = 800;
+						} else if (fontWeight.toLowerCase() === "black") {
+							fontWeight = 900;
+						} else {
+							fontWeight = 400;
+						}
+						fs.appendFile(
+							fontsFile,
+							`@font-face {\n\tsrc: url("../fonts/${fontFileName}.woff2"), url("../fonts/${fontFileName}.woff");\n\tfont-family: "${fontName}";\n\tfont-weight: ${fontWeight};\n\tfont-style: normal;\n\tfont-display: swap;\n}\r\n\n`,
+							cb
+						);
+						newFileOnly = fontFileName;
+					}
+				}
+			} else {
+				console.log(
+					"Файл scss/fonts.scss всжу існує. Для оновлення необхідно його видалити!"
+				);
+			}
+		}
+	});
+
+	return gulp.src(`${path.src.css}`);
+	function cb() {}
+}
+
 function cb() {}
 
 function watchFiles() {
@@ -206,11 +274,17 @@ function cleanDist() {
 	return delDist(path.clean);
 }
 
+let fontSeries = gulp.series(fonts, newFontsStyle);
 
-let build = gulp.series(cleanDist, gulp.parallel(html, css, js, libs, images, fonts), fontsStyle);
-let watch = gulp.parallel(build, watchFiles, serverInit);
+let build = gulp.series(
+	fontSeries,
+	gulp.parallel(html, css, js, libs, images)
+);
+
+let watch = gulp.series(cleanDist, build, gulp.parallel(watchFiles, serverInit));
 
 exports.fontsStyle = fontsStyle;
+exports.newFontsStyle = newFontsStyle;
 exports.libs = libs;
 exports.fonts = fonts;
 exports.images = images;
@@ -218,6 +292,5 @@ exports.js = js;
 exports.css = css;
 exports.html = html;
 exports.build = build;
-exports.watch = watch;
+// exports.watch = watch;
 exports.default = watch;
-

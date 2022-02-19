@@ -5,8 +5,16 @@
 @import "vendors";
 @import "vars";
 @import "mixins";
+@import "functions";
 @import "fonts";
+@import "container";
 @import "global";
 
 // сітка
 @import "grid/init";
+
+// comonents
+@import "components/header";
+@import "components/header-menu";
+@import "components/block";
+@import "components/footer";

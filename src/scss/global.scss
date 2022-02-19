@@ -6,8 +6,12 @@
 
 body {
 	margin: 0;
-	-webkit-font-smoothing: antialiased; //
+	font-family: "gilroy", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	font-size: 16px;
+	color: $firefly;
 	-webkit-tap-highlight-color: transparent;
+	background-color: $alabaster;
 }
 
 hr,
@@ -52,7 +56,7 @@ a {
 	cursor: pointer;
 
 	&:hover {
-		color: #f0f;
+		opacity: 0.9;
 	}
 }
 

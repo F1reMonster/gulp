@@ -1,0 +1,98 @@
+.block {
+	display: block;
+	padding: 20px 0;
+
+	&__col {
+		margin-bottom: px($containerGutter);
+		padding: px(20) px(10);
+		text-align: center;
+		background-color: $white;
+
+		&--shadow {
+			box-shadow: $shadow-flat;
+		}
+
+		&--rounded {
+			border-radius: px(4);
+		}
+	}
+
+	&__title {
+		margin-bottom: px($containerGutter);
+
+		span {
+			position: relative;
+
+			&::before {
+				content: "";
+				position: absolute;
+				left: 0;
+				bottom: -2px;
+				border-bottom: 2px dashed $fern;
+				width: 100%;
+				height: 2px;
+			}
+		}
+
+		&--standard {
+			font-weight: 600;
+		}
+
+		&--huge {
+			@include adaptiveValue("font-size",
+				($fontSizeDefault * 4.2),
+				($fontSizeDefault + 14),
+				0);
+
+			font-weight: 700;
+			color: $fern;
+		}
+
+		&--shadow {
+			text-shadow: $shadow;
+
+		}
+
+		&--xxl {
+			@include adaptiveValue("font-size",
+				($fontSizeDefault * 4),
+				($fontSizeDefault + 12),
+				0);
+		}
+
+		&--xl {
+			@include adaptiveValue("font-size",
+				($fontSizeDefault * 3.5),
+				($fontSizeDefault + 10),
+				0);
+		}
+
+		&--lg {
+			@include adaptiveValue("font-size",
+				($fontSizeDefault * 3),
+				($fontSizeDefault + 8),
+				0);
+		}
+
+		&--md {
+			@include adaptiveValue("font-size",
+				($fontSizeDefault * 2.5),
+				($fontSizeDefault + 6),
+				0);
+		}
+
+		&--sm {
+			@include adaptiveValue("font-size",
+				($fontSizeDefault * 2),
+				($fontSizeDefault + 4),
+				0);
+		}
+
+		&--lt {
+			@include adaptiveValue("font-size",
+				($fontSizeDefault * 1.5),
+				($fontSizeDefault + 2),
+				0);
+		}
+	}
+}
