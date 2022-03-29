@@ -10,6 +10,8 @@ let path = {
 		js: project_folder + "/js/",
 		img: project_folder + "/img/",
 		fonts: project_folder + "/fonts/",
+		files: project_folder + "/files/",
+		favicon: project_folder + "/"
 	},
 	src: {
 		html: [source_folder + "/*.html", "!" + source_folder + "/**/_*.html"],
@@ -18,6 +20,8 @@ let path = {
 		img: source_folder + "/img/**/*.{jpg,jpeg,png,gif,ico,webp,svg}",
 		fonts: source_folder + "/fonts/*.ttf",
 		svg: source_folder + "/img/svg/*.svg",
+		files: source_folder + "/files/**/*.*",
+		favicon: source_folder + "/*.{ico,png,xml,webmanifest,svg}"
 	},
 	watch: {
 		html: source_folder + "/**/*.html",
@@ -25,6 +29,8 @@ let path = {
 		js: source_folder + "/js/**/*.js",
 		img: source_folder + "/img/**/*.{jpg,jpeg,png,gif,ico,webp,svg}",
 		svg: source_folder + "/img/svg/*.svg",
+		files: source_folder + "/files/**/*.*",
+		favicon: source_folder + "/*.{ico,png,xml,webmanifest,svg}"
 	},
 	clean: "./" + project_folder + "/",
 };
@@ -110,7 +116,7 @@ function js() {
 function libs() {
 	return src([
 		"node_modules/jquery/dist/jquery.js",
-		//"node_modules/swiper/swiper-bundle.js",
+		"node_modules/swiper/swiper-bundle.js",
 		//"node_modules/jquery-validation/dist/jquery.validate.js",
 		//"node_modules/jquery-validation/dist/additional-methods.js",
 		//"node_modules/inputmask/dist/jquery.inputmask.js",
@@ -145,6 +151,22 @@ function images() {
 		.pipe(browserSync.stream());
 }
 
+function files() {
+	return src(path.src.files)
+		.pipe(newer(path.build.files))
+		.pipe(dest(path.build.files))
+		.pipe(browserSync.stream());
+}
+
+// function favicon() {
+// 	return src(path.src.favicon)
+// 		.pipe(newer(path.build.favicon))
+// 		.pipe(dest(path.build.favicon))
+// 		.pipe(browserSync.stream());
+// }
+
+
+
 function serverInit() {
 	browserSync.init({
 		server: {
@@ -169,6 +191,11 @@ gulp.task("otf2ttf", function () {
 		)
 		.pipe(dest(source_folder + "/fonts/"));
 });
+
+gulp.task('favicon', function () {
+	return src(path.src.favicon)
+		.pipe(dest(path.build.favicon))
+})
 
 function fontsStyle(params) {
 	let file_content = fs.readFileSync(source_folder + "/scss/fonts.scss");
@@ -268,6 +295,7 @@ function watchFiles() {
 	gulp.watch([path.watch.css], css);
 	gulp.watch([path.watch.js], js);
 	gulp.watch([path.watch.img], images);
+	gulp.watch([path.watch.files], files);
 }
 
 function cleanDist() {
@@ -278,7 +306,7 @@ let fontSeries = gulp.series(fonts, newFontsStyle);
 
 let build = gulp.series(
 	fontSeries,
-	gulp.parallel(html, css, js, libs, images)
+	gulp.parallel(html, css, js, libs, images, files)
 );
 
 let watch = gulp.series(cleanDist, build, gulp.parallel(watchFiles, serverInit));
@@ -288,6 +316,7 @@ exports.newFontsStyle = newFontsStyle;
 exports.libs = libs;
 exports.fonts = fonts;
 exports.images = images;
+exports.files = files;
 exports.js = js;
 exports.css = css;
 exports.html = html;

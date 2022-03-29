@@ -2,6 +2,10 @@
 	display: block;
 	padding: 20px 0;
 
+	&__row {
+		flex-flow: wrap;
+	}
+
 	&__col {
 		margin-bottom: px($containerGutter);
 		padding: px(20) px(10);
@@ -45,6 +49,14 @@
 			color: $fern;
 		}
 
+		&--repeating-linear-gradient {
+			span {
+				-webkit-text-fill-color: transparent;
+				background: repeating-linear-gradient($fern, $fern 2px, transparent 2px, transparent 4px);
+				background-clip: text;
+			}
+		}
+
 		&--shadow {
 			text-shadow: $shadow;
 		}
@@ -76,6 +88,7 @@
 
 	&__text {
 		font-weight: 400;
+		font-size: px($fontSizeDefault);
 
 		&--mid {
 			font-weight: 500;

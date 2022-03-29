@@ -8,7 +8,7 @@ body {
 	margin: 0;
 	font-family: "gilroy", sans-serif;
 	-webkit-font-smoothing: antialiased;
-	font-size: 16px;
+	font-size: px($fontSizeDefault);
 	color: $firefly;
 	-webkit-tap-highlight-color: transparent;
 	background-color: $alabaster;
@@ -31,6 +31,7 @@ textarea {
 	outline: none;
 	border: none;
 	box-shadow: none;
+	font-size: px($fontSizeDefault);
 }
 
 button {
@@ -68,4 +69,13 @@ h5,
 h6 {
 	margin: 0;
 	padding: 0;
+}
+
+.px-2 {
+	padding-top: rem($fontSizeDefault * 2);
+	padding-bottom: rem($fontSizeDefault * 2);
+}
+
+.mb-2 {
+	margin-bottom: rem($fontSizeDefault * 2);
 }
