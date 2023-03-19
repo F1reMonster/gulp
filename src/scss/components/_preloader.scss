@@ -1,0 +1,68 @@
+@import "../colors";
+
+.preloader {
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	background-color: $white;
+}
+
+.preloader-content {
+	position: relative;
+	width: 100px;
+	height: 100px;
+
+	span {
+		position: absolute;
+		margin: 0;
+		border: 0;
+		border-radius: 50%;
+		width: 40%;
+		height: 40%;
+		animation: spin 2s ease infinite;
+
+		&:first-child {
+			background: $blue;
+			animation-delay: -1.5s;
+		}
+
+		&:last-child {
+			background: $yellow;
+		}
+
+		&:nth-child(2) {
+			background: $yellow;
+			animation-delay: -1s;
+		}
+
+		&:nth-child(3) {
+			background: $blue;
+			animation-delay: -0.5s;
+		}
+	}
+}
+
+@keyframes spin {
+	0%,
+	100% {
+		transform: translate(0);
+	}
+
+	25% {
+		transform: translate(160%);
+	}
+
+	50% {
+		transform: translate(160%, 160%);
+	}
+
+	75% {
+		transform: translate(0, 160%);
+	}
+}

@@ -1,0 +1,45 @@
+@use "sass:math";
+
+// TO %
+@function prc($pxOne, $pxTwo) {
+	$result: math.div($pxOne, $pxTwo) * 100%;
+
+	@return $result;
+}
+
+// REM
+@function rem($px) {
+	$result: math.div($px, $fontSizeDefault) + rem;
+
+	@return $result;
+}
+
+// EM
+@function em($px) {
+	$result: math.div($px, $fontSizeDefault) + em;
+
+	@return $result;
+}
+
+// PX
+@function px($px) {
+	$result: $px + px;
+
+	@return $result;
+}
+
+@for $i from 1 through 10 {
+	.px-#{$i} {
+		@include px($i);
+	}
+}
+
+@function fluid($max-size, $min-size, $unit: vw) {
+	$slope: math.div($max-size - $min-size, $maxWidthC - $minWidth);
+	$slope-to-unit: $slope * 100;
+	$intercept-rem: rem($min-size - $slope * $minWidth);
+	$min-size-rem: rem($min-size);
+	$max-size-rem: rem($max-size);
+
+	@return clamp(#{$min-size-rem}, #{$slope-to-unit}#{$unit} + #{$intercept-rem}, #{$max-size-rem});
+}

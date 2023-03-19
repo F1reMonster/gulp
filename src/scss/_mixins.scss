@@ -48,6 +48,11 @@
 	}
 }
 
+@mixin px($size) {
+	padding-top: rem($fontSizeDefault * ($size * 0.5));
+	padding-bottom: rem($fontSizeDefault * ($size * 0.5));
+}
+
 // ========================================== //
 // міксин для шрифтів
 // @mixin font($font_name, $file_name, $weight, $style) {
@@ -75,7 +80,7 @@
 }
 
 // адаптивний розмір напр.: @include adaptiveValue("font-size", 60, 20, 0)
-@mixin adaptiveValue($property, $startSize, $minSize, $type) {
+@mixin adaptiveCalcValue($property, $startSize, $minSize, $type) {
 	$addSize: $startSize - $minSize;
 
 	@if $type == 1 {
@@ -95,5 +100,24 @@
 	} @else {
 		//  завжди
 		#{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth - 320}));
+	}
+}
+
+@mixin adaptiveClampValue($property, $maxValuePx, $minValuePx) {
+	$minValueRem: math.div($minValuePx, $fontSizeDefault);
+	$maxValueRem: math.div($maxValuePx, $fontSizeDefault);
+	$variablePart: math.div(($maxValuePx - $minValuePx), ($maxWidthContainer - $minWidth));
+	$constant: math.div(($maxValuePx - $maxWidthContainer * $variablePart), 16);
+
+	@media (min-width: em($maxWidthContainer)) {
+		#{$property}: #{$maxValueRem + rem};
+	}
+
+	@media (min-width: em($minWidth)) and (max-width: em($maxWidthContainer)) {
+		#{$property}: clamp(#{$minValueRem + rem}, #{$constant + rem} + #{($variablePart * 100) + vw}, #{$maxValueRem + rem});
+	}
+
+	@media (max-width: em($minWidth)) {
+		#{$property}: #{$minValueRem + rem};
 	}
 }

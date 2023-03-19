@@ -1,0 +1,54 @@
+html,
+body {
+	height: 100%;
+	box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: inherit;
+}
+
+body {
+	font-family: $font-primary;
+	-webkit-text-size-adjust: 100%;
+	-webkit-font-smoothing: antialiased;
+	-webkit-tap-highlight-color: transparent;
+	-ms-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-moz-osx-font-smoothing: grayscale;
+
+	&.lock {
+		overflow: hidden;
+		touch-action: none;
+		overscroll-behavior: none;
+	}
+}
+
+main {
+	flex-grow: 1;
+
+	h1 {
+		@include adaptiveClampValue("font-size", 70, 16);
+
+		font-weight: 700;
+	}
+}
+
+img {
+	width: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+.body-wrapper {
+	display: flex;
+	flex-direction: column;
+	overflow: clip;
+	min-height: 100%;
+}
