@@ -1,3 +1,11 @@
 // стилі для підвалу сайту
 .footer {
+	&__wrapper {
+		@include adaptiveClampValue("padding-top", 20, 10);
+		@include adaptiveClampValue("padding-bottom", 20, 10);
+
+		p {
+			@include adaptiveClampValue("font-size", 30, 20);
+		}
+	}
 }

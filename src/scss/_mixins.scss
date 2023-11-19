@@ -1,3 +1,5 @@
+/* stylelint-disable number-max-precision */
+/* stylelint-disable max-line-length */
 @use "sass:math";
 @use "sass:map";
 
@@ -15,12 +17,12 @@
 @mixin row {
 	display: flex;
 	flex-wrap: wrap;
-	margin-right: -$grid-gap-side;
-	margin-left: -$grid-gap-side;
+	margin-right: rem(-$grid-gap-side);
+	margin-left: rem(-$grid-gap-side);
 
 	> * {
-		margin-right: $grid-gap-side;
-		margin-left: $grid-gap-side;
+		margin-right: rem($grid-gap-side);
+		margin-left: rem($grid-gap-side);
 		width: 100%;
 		max-width: 100%;
 	}
@@ -29,7 +31,7 @@
 // фіксована колонка
 @mixin col($size) {
 	flex: 0 0 auto;
-	width: calc(#{math.percentage(math.div($size, $grid-columns))} - #{$grid-gap});
+	width: calc(#{math.percentage(math.div($size, $grid-columns))} - #{rem($grid-gap)});
 }
 
 // медіа
@@ -103,21 +105,85 @@
 	}
 }
 
-@mixin adaptiveClampValue($property, $maxValuePx, $minValuePx) {
+@mixin adaptiveClampValue($property, $startValuePx, $minValuePx, $keepSize: 0) {
+	@if $startValuePx == 0 {
+		$startValuePx: 0.000001;
+	}
+
+	@if $minValuePx == 0 {
+		$minValuePx: 0.000001;
+	}
+
 	$minValueRem: math.div($minValuePx, $fontSizeDefault);
-	$maxValueRem: math.div($maxValuePx, $fontSizeDefault);
-	$variablePart: math.div(($maxValuePx - $minValuePx), ($maxWidthContainer - $minWidth));
-	$constant: math.div(($maxValuePx - $maxWidthContainer * $variablePart), 16);
+	$maxValueRem: math.div($startValuePx, $fontSizeDefault);
 
-	@media (min-width: em($maxWidthContainer)) {
-		#{$property}: #{$maxValueRem + rem};
+	$widthFrom: $containerWidth;
+	$widthTo: $minWidth;
+
+	// Формула плаваючого значення
+	// Джерело: https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
+	$slope: math.div(($startValuePx - $minValuePx), ($widthFrom - $widthTo));
+	$yAxisIntersection: -$widthTo * $slope + $minValuePx;
+
+	@if $yAxisIntersection == 0 {
+		$yAxisIntersection: 0.000001;
 	}
 
-	@media (min-width: em($minWidth)) and (max-width: em($maxWidthContainer)) {
-		#{$property}: clamp(#{$minValueRem + rem}, #{$constant + rem} + #{($variablePart * 100) + vw}, #{$maxValueRem + rem});
+	$fluidValue: #{decimal-round((math.div($yAxisIntersection, $fontSizeDefault)), 4)}rem " + " #{decimal-round(($slope * 100), 4)}vw;
+
+	// для обчислення за допомогою calc()
+	$addSize: math.div($startValuePx - $minValuePx, 16);
+
+	// плаваюча величина
+	// значення властивості за замовчуванням
+	$propertyValue: clamp(#{$minValueRem + rem}, #{$fluidValue}, #{$maxValueRem + rem});
+
+	// якщо від'ємне значення
+	@if ($minValuePx > $startValuePx) {
+		$propertyValue: clamp(#{$maxValueRem + rem}, #{$fluidValue}, #{$minValueRem + rem});
 	}
 
-	@media (max-width: em($minWidth)) {
-		#{$property}: #{$minValueRem + rem};
+	@if $keepSize != 1 and $keepSize != 3 {
+		@media (min-width: em($widthFrom)) {
+			#{$property}: rem($startValuePx);
+		}
+	}
+
+	@media (min-width: em($widthTo)) and (max-width: em($widthFrom)) {
+		@supports (#{$property}: #{$propertyValue}) {
+			#{$property}: #{$propertyValue};
+		}
+
+		@supports not (#{$property}: #{$propertyValue}) {
+			#{$property}: calc(#{rem($minValuePx)} + #{$addSize} * (100vw - #{rem($widthTo)}) / #{math.div($maxWidthContainer, 16) - math.div($widthTo, 16)});
+		}
+	}
+
+	@if $keepSize != 1 and $keepSize != 2 {
+		@media (max-width: em($widthTo)) {
+			#{$property}: rem($minValuePx);
+		}
+	}
+}
+
+// Mixin
+@mixin vw($property, $sizeStartPx, $unit: 0) {
+	$wide-screen: "(min-width: #{em($containerWidth)})";
+
+	#{$property}: get-vw($sizeStartPx);
+	// Prevent font-size from getting too big
+
+	@if ($unit == 0) {
+		$unit: "px";
+		@media #{$wide-screen} {
+			#{$property}: #{$sizeStartPx}#{$unit};
+		}
+	}
+
+	@if ($unit == 1) {
+		$unit: "rem";
+		@media #{$wide-screen} {
+			#{$property}: #{math.div($sizeStartPx, $fontSizeDefault)}#{$unit};
+		}
 	}
 }

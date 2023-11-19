@@ -9,7 +9,7 @@ body {
 *::before {
 	margin: 0;
 	padding: 0;
-	box-sizing: inherit;
+	box-sizing: border-box;
 }
 
 body {
@@ -20,6 +20,10 @@ body {
 	-ms-text-size-adjust: 100%;
 	-moz-text-size-adjust: 100%;
 	-moz-osx-font-smoothing: grayscale;
+	// background: $international-klein-blue;
+	color: $black;
+	
+	
 
 	&.lock {
 		overflow: hidden;
@@ -30,12 +34,6 @@ body {
 
 main {
 	flex-grow: 1;
-
-	h1 {
-		@include adaptiveClampValue("font-size", 70, 16);
-
-		font-weight: 700;
-	}
 }
 
 img {

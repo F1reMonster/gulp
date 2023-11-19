@@ -40,7 +40,7 @@ let path = {
 let { src, dest } = (gulp = require("gulp")),
 	gulpScss = require("gulp-sass")(require("sass")),
 	// gulpPlumber = require("gulp-plumber"),
-	gulpAutoprefixer = require("gulp-autoprefixer"),
+	// gulpAutoprefixer = require("gulp-autoprefixer"),
 	cleanCSS = require("gulp-clean-css"),
 	gulpBabel = require("gulp-babel"),
 	//gulpUglify = require("gulp-uglify"),
@@ -48,13 +48,15 @@ let { src, dest } = (gulp = require("gulp")),
 	delDist = require("del"),
 	browserSync = require("browser-sync").create(),
 	gulpRename = require("gulp-rename"),
-	cssBeauty = require("gulp-cssbeautify"),
-	groupMedia = require("gulp-group-css-media-queries"),
+	// cssBeauty = require("gulp-cssbeautify"),
+	// groupMedia = require("gulp-group-css-media-queries"),
 	gulpConcat = require("gulp-concat"),
 	fileInclude = require("gulp-file-include"),
 	ttf2woff = require("gulp-ttf2woff"),
 	ttf2woff2 = require("gulp-ttf2woff2"),
 	newer = require("gulp-newer"),
+	postcss = require("gulp-postcss"),
+	// sortMediaQueries = require("sort-css-media-queries"),
 	fonter = require("gulp-fonter");
 versionNumber = require("gulp-version-number");
 
@@ -83,19 +85,20 @@ function css() {
 		src(path.src.css)
 			// .pipe(gulpPlumber())
 			.pipe(gulpScss().on("error", gulpScss.logError))
-			.pipe(groupMedia())
-			.pipe(
-				cssBeauty({
-					indent: "	",
-				})
-			)
-			.pipe(
-				gulpAutoprefixer({
-					grid: true,
-					overrideBrowserslist: ["last 3 versions"],
-					cascade: true,
-				})
-			)
+			// .pipe(groupMedia())
+			// .pipe(
+			// 	cssBeauty({
+			// 		indent: "	",
+			// 	})
+			// )
+			.pipe(postcss())
+			// .pipe(
+			// 	gulpAutoprefixer({
+			// 		grid: true,
+			// 		overrideBrowserslist: ["last 3 versions"],
+			// 		cascade: true,
+			// 	})
+			// )
 			.pipe(dest(path.build.css))
 			.pipe(
 				cleanCSS({
@@ -103,6 +106,7 @@ function css() {
 					level: {
 						1: {
 							specialComments: "all",
+							replaceZeroUnits: false,
 							keepZeroUnits: true,
 						},
 						2: {

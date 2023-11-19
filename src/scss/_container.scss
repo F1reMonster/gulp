@@ -1,8 +1,7 @@
 .container {
-	margin: 0 auto;
-	padding-right: px($containerGutter);
-	padding-left: px($containerGutter);
-	max-width: px($maxWidthContainer);
-
-	
+	// margin: 0 auto;
+	padding-right: rem($containerPadding);
+	padding-left: rem($containerPadding);
+	max-width: rem($maxWidthContainer);
+	margin-inline: auto;
 }

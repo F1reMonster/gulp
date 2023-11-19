@@ -2,6 +2,7 @@
 
 // головні файли
 
+@import "colors";
 @import "reset";
 @import "vendors";
 @import "vars";
@@ -11,10 +12,13 @@
 @import "container";
 @import "global";
 @import "typography";
-@import "colors";
 
 // сітка
 @import "grid/init";
 
 // comonents
 @import "components/preloader";
+@import "components/header";
+@import "components/footer";
+@import "components/buttons";
+@import "components/block";

@@ -1,3 +1,21 @@
-.block {
-	
+h1 {
+	// @include adaptiveClampValue("font-size", 70, 24);
+	// @include vw("font-size", 50, 1);
+	// @include vw("margin-top", 20, 1);
+	// @include vw("margin-bottom", 20, 1);
+
+	// margin-bottom: rem(20);
+	// font-weight: 700;
+}
+
+h2 {
+	// @include adaptiveClampValue("font-size", 50, 16);
+	// @include vw("font-size", 30);
+	// @include vw("margin-bottom", 20);
+
+	// margin-bottom: rem(20);
+	// font-weight: 400;
+	// writing-mode: vertical-lr;
+
+	// text-align: center;
 }
